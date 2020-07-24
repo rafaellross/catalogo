@@ -24,7 +24,7 @@ class ProdutoController extends Controller
      */
     public function create()
     {
-        //
+        return view('produtos.create');
     }
 
     /**
@@ -35,7 +35,26 @@ class ProdutoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $produto = new Produto();
+        $produto->titulo = $request->titulo;
+        $produto->descricao = $request->descricao;
+        $produto->categoria_id = $request->categoria_id;
+        $produto->preco = $request->preco;
+        $produto->save();
+        if ($request->file('photos')) {
+            foreach ($request->file('photos') as $file) {
+                $foto = new \App\ProdutoFoto();
+
+                $imageName = uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images'), $imageName);
+                $foto->arquivo = $imageName;
+                $foto->prod_id = $produto->id;
+                $foto->save();
+            }
+        }
+
+        return redirect('produtos')->with('success','Produto atualizado com sucesso!');
+
     }
 
     /**
@@ -71,15 +90,19 @@ class ProdutoController extends Controller
     {
         $produto->titulo = $request->titulo;
         $produto->descricao = $request->descricao;
+        $produto->categoria_id = $request->categoria_id;
+        $produto->preco = $request->preco;
         $produto->save();
-        foreach ($request->file('photos') as $file) {
-            $foto = new \App\ProdutoFoto();
+        if ($request->file('photos')) {
+            foreach ($request->file('photos') as $file) {
+                $foto = new \App\ProdutoFoto();
 
-            $imageName = uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images'), $imageName);
-            $foto->arquivo = $imageName;
-            $foto->prod_id = $produto->id;
-            $foto->save();
+                $imageName = uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('images'), $imageName);
+                $foto->arquivo = $imageName;
+                $foto->prod_id = $produto->id;
+                $foto->save();
+            }
         }
 
         return redirect('produtos')->with('success','Produto atualizado com sucesso!');

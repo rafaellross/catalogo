@@ -5,16 +5,15 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Atualizar Produto') }}</div>
+                <div class="card-header">{{ __('Criar Novo Produto') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{action('ProdutoController@update', $produto->id)}}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('produtos.store') }}" enctype="multipart/form-data">
                         {{csrf_field()}}
-                        @method('PATCH')
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Titulo') }}</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control{{ $errors->has('titulo') ? ' is-invalid' : '' }}" name="titulo" value="{{ $produto->titulo }}" required>
+                                <input type="text" class="form-control{{ $errors->has('titulo') ? ' is-invalid' : '' }}" name="titulo" value="" required>
 
                                 @if ($errors->has('name'))
                                     <span class="invalid-feedback">
@@ -23,10 +22,22 @@
                                 @endif
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label for="descricao" class="col-md-4 col-form-label text-md-right">{{ __('Descrição') }}</label>
+                            <div class="col-md-6">
+                                <textarea class="form-control form-control-lg" name="descricao" rows="5" style="resize: none;"></textarea>
+                                @if ($errors->has('descricao'))
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('descricao') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label for="preco" class="col-md-4 col-form-label text-md-right">{{ __('Preço') }}</label>
                             <div class="col-md-6">
-                                <input type="number" class="form-control{{ $errors->has('preco') ? ' is-invalid' : '' }}" name="preco" value="{{$produto->preco}}" required>
+                                <input type="number" class="form-control{{ $errors->has('preco') ? ' is-invalid' : '' }}" name="preco" value="" required>
 
                                 @if ($errors->has('preco'))
                                     <span class="invalid-feedback">
@@ -37,24 +48,12 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="descricao" class="col-md-4 col-form-label text-md-right">{{ __('Descrição') }}</label>
-                            <div class="col-md-6">
-                                <textarea class="form-control form-control-lg" name="descricao" rows="5" style="resize: none;">{{$produto->descricao}}</textarea>
-
-                                @if ($errors->has('descricao'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('descricao') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label for="job_id" class="col-md-4 col-form-label text-md-right">{{ __('Categoria') }}</label>
                             <div class="col-md-6">
                                 <select name="categoria_id" class="form-control">
-                                    <option value="" {{$produto->categoria_id == "" ? 'selected' : ''}}>-</option>
+                                    <option value="">-</option>
                                   @foreach (App\Categoria::all() as $categoria)
-                                      <option value="{{$categoria->id}}" {{$categoria->id == $produto->categoria_id ? 'selected' : ''}}>{{$categoria->descricao}}</option>
+                                      <option value="{{$categoria->id}}">{{$categoria->descricao}}</option>
                                   @endforeach
                                 </select>
                             </div>
@@ -70,7 +69,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Update') }}
+                                    {{ __('Criar') }}
                                 </button>
                             </div>
                         </div>
@@ -91,7 +90,7 @@ $(document).ready(function() {
                 <h5 style="text-align: center;">Photo ` + qa_photos + `</h5>
                 <div class="input-group col-12 mb-3">
                 <div class="custom-file">
-                    <input type="file" accept="image/png, image/jpeg" class="custom-file-input qa_photos" id="photos[` + qa_photos + `]" name="photos[` + qa_photos + `]"/>
+                    <input type="file" accept="image/png, image/jpeg"  class="custom-file-input qa_photos" id="photos[` + qa_photos + `]" name="photos[` + qa_photos + `]"/>
                     <label class="custom-file-label" for="photos[` + qa_photos + `]">Choose files</label>
                 </div>
                 </div>

@@ -18,6 +18,7 @@ class CreateProdutosTable extends Migration
             $table->timestamps();
             $table->string('titulo');
             $table->string('descricao');
+            $table->unsignedInteger('categoria_id')->nullable();
             $table->float('preco');
         });
     }
