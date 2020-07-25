@@ -21,12 +21,12 @@ App\Lbc\LaravelBootstrapComponents::initDocs();
 
 
 Route::get('/', function () {
-    return view('welcome');
+
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'ProdutoController@index')->name('home');
 
 
 Route::resource('produtos', 'ProdutoController');
